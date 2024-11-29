@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d3b5bd1c6af0494e8ccc26a2e694c58b" Name="Diagram1" ZoomLevel="51">
+        <EntityTypeShape EntityType="QLBANSACHModel.CHITIETDONTHANG" Width="1.5" PointX="2" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLBANSACHModel.DONDATHANG" Width="1.5" PointX="5.375" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLBANSACHModel.KHACHHANG" Width="1.5" PointX="8.375" PointY="6.125" IsExpanded="true" />
+        <AssociationConnector Association="QLBANSACHModel.FK_Donhang" ManuallyRouted="false" />
+        <AssociationConnector Association="QLBANSACHModel.FK_Khachhang" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QLBANSACHModel.HANGSANXUAT" Width="1.5" PointX="14.625" PointY="5.875" />
+        <EntityTypeShape EntityType="QLBANSACHModel.LOAIXE" Width="1.5" PointX="5" PointY="0.625" />
+        <EntityTypeShape EntityType="QLBANSACHModel.NHAPHANPHOI" Width="1.5" PointX="1" PointY="5.125" />
+        <EntityTypeShape EntityType="QLBANSACHModel.SANXUATXE" Width="1.5" PointX="14.625" PointY="1.375" />
+        <EntityTypeShape EntityType="QLBANSACHModel.XEGANMAY" Width="1.5" PointX="9.625" PointY="1" />
+        <AssociationConnector Association="QLBANSACHModel.FK_Xe" />
+        <AssociationConnector Association="QLBANSACHModel.FK_SanXuatXe_HSX" />
+        <AssociationConnector Association="QLBANSACHModel.FK_LoaiXe" />
+        <AssociationConnector Association="QLBANSACHModel.FK_HangSanXuat" />
+        <AssociationConnector Association="QLBANSACHModel.FK_SanXuatXe_Xe" />
+        <EntityTypeShape EntityType="QLBANSACHModel.Admin" Width="1.5" PointX="3.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

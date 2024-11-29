@@ -1,0 +1,92 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>CodePen - Animated Login Form using Html &amp; CSS Only</title>
+
+    <link href="~/Content/css/adminCss.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <style>
+        /* Ẩn thông báo lỗi mặc định */
+        .validation-message {
+            display: none;
+        }
+
+        /* Hiển thị thông báo lỗi khi có lỗi */
+        .validation-error {
+            display: block !important;
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .text-danger {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+    <section>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+
+        <div class="signin">
+
+            <div class="content">
+
+                <h2>Sign In</h2>
+
+                @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+                {
+                    <div class="form">
+                        <!-- Input Box cho Username -->
+                        <div class="inputBox">
+                            <input type="text" name="username" placeholder="Username" required />
+                            @if (ViewData["Loi1"] != null)
+                            {
+                                <span class="text-danger">@ViewData["Loi1"]</span>
+                            }
+                        </div>
+
+                        <!-- Input Box cho Password -->
+                        <div class="inputBox">
+                            <input type="password" name="password" placeholder="Password" required />
+                            @if (ViewData["Loi2"] != null)
+                            {
+                                <span class="text-danger">@ViewData["Loi2"]</span>
+                            }
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="inputBox">
+                            <input type="submit" value="Login" />
+                        </div>
+
+                        <!-- Thông báo lỗi chung -->
+                        @if (ViewData["Thongbao"] != null)
+                        {
+                            <div class="text-danger">@ViewData["Thongbao"]</div>
+                        }
+                    </div>
+                }
+
+
+
+
+            </div>
+
+    </section>
+</body>
+
+</html>

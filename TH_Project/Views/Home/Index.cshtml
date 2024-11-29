@@ -1,0 +1,100 @@
+﻿@model TH_Project.ViewModel.HomeVM
+@using PagedList.Mvc;
+
+<style>
+    .category_section {
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+    }
+
+    .cate_pick {
+        width: 30%;
+    }
+
+    .category-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .category-item {
+        margin-bottom: 10px;
+    }
+
+    /* Pagination styling */
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a, .pagination li span {
+                display: block;
+                padding: 8px 12px;
+                color: #007bff;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                text-decoration: none;
+            }
+
+                .pagination li a:hover, .pagination li.active span {
+                    background-color: #007bff;
+                    color: #fff;
+                    border-color: #007bff;
+                }
+</style>
+
+<section class="slider_section " style="display: grid;">
+    <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <!-- Carousel content -->
+    </div>
+
+    <div class="container" style="text-align: center;">
+        <h3 style="color: darkred">XE MỚI</h3>
+        <div class="row">
+            @foreach (var item in Model.XEes)
+            {
+                <div class="col-md-4 mb-4">
+                    <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaXe })" class="item card text-center" style="text-decoration: none;">
+                        <img src="@Url.Content("~/" + item.Anhbia)" class="card-img-top" alt="@item.TenXe" />
+                        <div class="card-body">
+                            <h5 class="card-title">@item.TenXe</h5>
+                            <p class="card-text">@item.Giaban</p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination controls -->
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.XEes, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+            {
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                Display = PagedListDisplayMode.IfNeeded,
+                DisplayPageCountAndCurrentLocation = false,
+                DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                MaximumPageNumbersToDisplay = 5,
+                LinkToFirstPageFormat = "Trang đầu",
+                LinkToPreviousPageFormat = "Trang trước",
+                LinkToNextPageFormat = "Trang sau",
+                LinkToLastPageFormat = "Trang cuối",
+                ClassToApplyToFirstListItemInPager = "page-item",
+                ClassToApplyToLastListItemInPager = "page-item"
+            })
+        </div>
+    </div>
+</section>

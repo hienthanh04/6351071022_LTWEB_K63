@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Chi Tiết Sản Phẩm";
+    var product = ViewBag.Product; // Giả sử bạn đã truyền sản phẩm từ controller vào ViewBag
+}
+@model TH_Project.ViewModel.DetailProductVM
+<style>
+    .category_section {
+        display: flex;
+        flex-direction: row; /* Hiển thị theo hàng ngang */
+        padding: 20px;
+    }
+
+    .cate_pick {
+        width: 30%; /* Chiếm 30% chiều rộng */
+    }
+
+    .category-list {
+        list-style-type: none; /* Bỏ dấu đầu dòng */
+        padding: 0; /* Bỏ padding mặc định */
+    }
+
+    .category-item {
+        margin-bottom: 10px; /* Khoảng cách giữa các mục */
+    }
+</style>
+
+
+
+<!-- end slider section -->
+
+
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.Xe.Anhbia" alt="@Model.Xe.TenXe" class="img-fluid" />
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.Xe.TenXe</h2>
+            <h4>Giá: @Model.Xe.Giaban</h4>
+            <p><strong>Mô tả:</strong> @Model.Xe.Mota</p>
+
+            <div id="Datmua"> <a href="@Url.Action("ThemGioHang", "GioHang", new { @iMasach = @Model.Xe.MaXe, @strURL = "Index" })" class="btn btn-primary mt-3"> Thêm vào giỏ hàng </a> </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+﻿@model IPagedList<TH_Project.Data.XEGANMAY>
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Sach";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    /* Pagination styling */
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a, .pagination li span {
+                display: block;
+                padding: 8px 12px;
+                color: #007bff;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                text-decoration: none;
+            }
+
+                .pagination li a:hover, .pagination li.active span {
+                    background-color: #007bff;
+                    color: #fff;
+                    border-color: #007bff;
+                }
+</style>
+<h2>Sach</h2>
+@helper Truncate(string input, int length)
+{
+    if (string.IsNullOrEmpty(input))
+    {
+        @input
+    }
+    else if (input.Length > length)
+    {
+        @input.Substring(0, length)<test>...</test>
+    }
+    else
+    {
+        @input
+    }
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>MaXe</th>
+        <th>TenXe</th>
+        <th>Giaban</th>
+        <th>Mota</th>
+        <th>Anhbia</th>
+        <th>Ngaycapnhat</th>
+        <th>Soluongton</th>
+        <th>MaLX</th>
+        <th>MaNPP</th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.MaXe)</td>
+            <td>@Html.DisplayFor(modelItem => item.TenXe)</td>
+            <td>@Html.DisplayFor(modelItem => item.Giaban)</td>
+            <td>@Html.DisplayFor(modelItem => item.Mota)</td>
+            <td>
+                <!-- Hiển thị ảnh bìa của sách -->
+                <img src="@item.Anhbia" alt="@item.TenXe style="width: 100px; height: auto;" />
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Ngaycapnhat)</td>
+            <td>@Html.DisplayFor(modelItem => item.Soluongton)</td>
+            <td>@Html.DisplayFor(modelItem => item.MaLX)</td>
+            <td>@Html.DisplayFor(modelItem => item.MaNPP)</td>
+            <td>
+                @Html.ActionLink("Edit", "Suasach", "Admin", new { id = item.MaXe }, null)
+                @Html.ActionLink("Details", "Details", "Admin", new { id = item.MaXe }, null)
+                @Html.ActionLink("Delete", "Delete", "Admin", new { id = item.MaXe }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<!-- Phân trang -->
+<div class="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Sach", new { page }))
+</div>

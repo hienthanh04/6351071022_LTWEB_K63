@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model TH_Project.ViewModel.ProductVM
+<style>
+    .category_section {
+        display: flex;
+        flex-direction: row; /* Hiển thị theo hàng ngang */
+        padding: 20px;
+    }
+
+    .cate_pick {
+        width: 30%; /* Chiếm 30% chiều rộng */
+    }
+
+    .category-list {
+        list-style-type: none; /* Bỏ dấu đầu dòng */
+        padding: 0; /* Bỏ padding mặc định */
+    }
+
+    .category-item {
+        margin-bottom: 10px; /* Khoảng cách giữa các mục */
+    }
+</style>
+
+
+
+<!-- end slider section -->
+
+
+
+
+
+
+    <div class="container" style="text-align: center;">
+        <h3 style="color: darkred">SÁCH MỚI</h3>
+        <div class="row">
+            @foreach (var item in Model.XEes)
+            {
+                <div class="col-md-4 mb-4">
+                    <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaXe })" class="item card text-center" style="text-decoration: none;">
+                        <img src="@Url.Content("~/" + item.Anhbia)" class="card-img-top" alt="@item.TenXe" />
+                        <div class="card-body">
+                            <h5 class="card-title">@item.TenXe</h5>
+                            <p class="card-text">@item.Giaban</p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+
+
+    </div>
+
+
+<!-- catagory section -->
+<!-- end about section -->
+<!-- client section -->
