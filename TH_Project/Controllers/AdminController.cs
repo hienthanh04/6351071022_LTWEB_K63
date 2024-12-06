@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +38,7 @@ namespace TH_Project.Controllers
             int pageSize = 9; // Số lượng sách trên mỗi trang
             int pageNumber = (page ?? 1); // Trang hiện tại, mặc định là trang 1
 
-            var books = await _db.LOAIXEs.ToListAsync(); // Lấy tất cả sách từ cơ sở dữ liệu
+            var books = await _db.XEGANMAYs.ToListAsync(); // Lấy tất cả sách từ cơ sở dữ liệu
             var pagedBooks = books.ToPagedList(pageNumber, pageSize); // Phân trang danh sách sách
 
             return View(pagedBooks); // Trả về view với danh sách đã phân trang
@@ -165,18 +166,28 @@ namespace TH_Project.Controllers
 
 
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
+            // Kiểm tra nếu id không có giá trị
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // Trả về mã lỗi 400 (Bad Request)
+            }
+
+            // Tìm xe trong cơ sở dữ liệu
             XEGANMAY sach = await _db.XEGANMAYs.FindAsync(id);
-            ViewBag.Masach = sach.MaXe;
             if (sach == null)
             {
-                Response.StatusCode = 404;
-                return null;
+                return HttpNotFound("Không tìm thấy xe."); // Trả về mã lỗi 404 nếu không tìm thấy
             }
-            return View(sach);
 
+            // Truyền dữ liệu qua ViewBag (nếu cần thiết)
+            ViewBag.Masach = sach.MaXe;
+
+            // Trả về view với model là đối tượng sách
+            return View(sach);
         }
+
 
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
@@ -207,21 +218,28 @@ namespace TH_Project.Controllers
         [HttpGet]
         public ActionResult Suasach(int id)
         {
-            // Lấy đối tượng sách
+
+            {
+                Response.StatusCode = 400;
+                return HttpNotFound("ID không được cung cấp.");
+            }
+            // Lấy đối tượng sách từ database
             XEGANMAY sach = _db.XEGANMAYs.SingleOrDefault(n => n.MaXe == id);
 
+            // Kiểm tra nếu sách không tồn tại
             if (sach == null)
             {
                 Response.StatusCode = 404;
-                return HttpNotFound("Không tìm thấy sách."); // Trả về thông báo lỗi
+                return HttpNotFound("Không tìm thấy xe.");
             }
 
             // Tạo SelectList cho dropdown
             ViewBag.MaCD = new SelectList(_db.LOAIXEs.OrderBy(n => n.TenLoaiXe), "MaCD", "TenChude", sach.MaLX);
             ViewBag.MaNXB = new SelectList(_db.HANGSANXUATs.OrderBy(n => n.TenHSX), "MaNXB", "TenNXB", sach.MaNPP);
 
-            return View(sach); // Truyền model về view
+            return View(sach); // Trả về View với model sách
         }
+
 
 
         [HttpPost]
@@ -231,38 +249,27 @@ namespace TH_Project.Controllers
             // Kiểm tra xem model có hợp lệ không
             if (sach == null)
             {
-                ViewBag.Thongbao = "Thông tin sách không hợp lệ.";
+                ViewBag.Thongbao = "Thông tin xe không hợp lệ.";
                 return View(sach);
             }
 
-            if (sach.MaXe == 0)
-            {
-                ViewBag.Thongbao = "ID sách không hợp lệ.";
-                return View(sach);
-            }
-
-            // Xử lý upload file
+            // Xử lý upload file hình ảnh
             if (fileUpload != null && fileUpload.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(fileUpload.FileName);
-                var path = Path.Combine(Server.MapPath("~/Content/images"), fileName);
+                // Tạo tên file duy nhất
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/images/"), uniqueFileName);
 
-                // Kiểm tra nếu file đã tồn tại
-                if (System.IO.File.Exists(path))
+                // Kiểm tra nếu thư mục chứa ảnh không tồn tại, thì tạo mới
+                var directoryPath = Server.MapPath("~/Content/images/");
+                if (!Directory.Exists(directoryPath))
                 {
-                    ViewBag.Thongbao = "Hình ảnh đã tồn tại.";
+                    Directory.CreateDirectory(directoryPath);
                 }
-                else
-                {
-                    // Lưu file vào server
-                    fileUpload.SaveAs(path);
-                    sach.Anhbia = "/Content/images/" + fileName;
-                }
-            }
-            else if (string.IsNullOrEmpty(sach.Anhbia))
-            {
-                ViewBag.Thongbao = "Vui lòng chọn hình ảnh.";
-                return View(sach);
+
+                // Lưu file vào server
+                fileUpload.SaveAs(path);
+                sach.Anhbia = "/Content/images/" + uniqueFileName; // Cập nhật đường dẫn ảnh
             }
 
             try
@@ -279,18 +286,23 @@ namespace TH_Project.Controllers
                     model.MaNPP = sach.MaNPP;
                     model.Giaban = sach.Giaban;
                     model.Soluongton = sach.Soluongton;
-                    model.Anhbia = sach.Anhbia;
+
+                    // Nếu người dùng không upload ảnh mới, giữ nguyên ảnh cũ
+                    if (!string.IsNullOrEmpty(sach.Anhbia))
+                    {
+                        model.Anhbia = sach.Anhbia;
+                    }
+
                     model.Ngaycapnhat = DateTime.Now;
 
                     // Lưu thay đổi vào cơ sở dữ liệu
                     await _db.SaveChangesAsync();
-
-                    ViewBag.Thongbao = "Cập nhật sách thành công!";
+                    TempData["Message"] = "Cập nhật xe thành công!";
                     return RedirectToAction("Sach");
                 }
                 else
                 {
-                    ViewBag.Thongbao = "Không tìm thấy sách cần sửa.";
+                    ViewBag.Thongbao = "Không tìm thấy xe cần sửa.";
                 }
             }
             catch (Exception ex)
@@ -305,6 +317,7 @@ namespace TH_Project.Controllers
             // Trả về view với dữ liệu model
             return View(sach);
         }
+
 
 
         public ActionResult ThongKeSach()
